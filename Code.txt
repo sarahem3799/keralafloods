@@ -1,0 +1,41 @@
+import networkx as nx
+G=nx.Graph()
+H=nx.path_graph(36)
+G.add_nodes_from(H)
+G.remove_node(0)
+print(G.nodes())
+G.add_weighted_edges_from([(1,2,12),(2,3,103),(3,4,35),(4,5,58),(5,7,73),(5,11,94),(5,8,50),(6,7,24),(8,9,57),(8,10,78),(10,13,70),(10,16,47),(11,12,44),(12,15,43),(13,14,10),(15,17,10),(16,18,13),(17,19,24),(18,20,35),(18,19,20),(19,20,41),(19,21,70),(19,24,67),(20,22,13),(20,21,60),(21,32,11),(21,33,72),(22,23,77),(24,25,47),(24,32,31),(25,26,40),(26,27,72),(27,29,73),(27,28,14),(29,30,41),(29,31,44),(30,31,26),(31,32,17),(33,34,40),(33,35,53),(34,35,36)])
+G.number_of_edges()
+#all weights represent distances between two nodes in km
+print(G.edges())
+Affected = G.subgraph([10,13,17,18,19,20,21,23,24,26,30,31])
+print(Affected.edges())
+Unaffected = G.subgraph([1,2,3,4,5,6,7,8,9,11,12,14,15,16,22,25,27,28,29,32,33,35,34])
+print(Unaffected.edges())
+for (u,v,d) in G.edges(data='weight'):
+    if d>1: print('(%d, %d, %d)'%(u,v,d))
+print(nx.degree_centrality(G))
+print(nx.closeness_centrality(G))
+print(nx.betweenness_centrality(G))
+degree_c = nx.degree_centrality(G)
+degree_centrality = [(value,key) for key, value in degree_c.items()]
+max_dc= max(degree_centrality)
+closeness_c = nx.closeness_centrality(G)
+closeness_centrality = [(value,key) for key, value in closeness_c.items()]
+max_cc = max(closeness_centrality)
+betweenness_c = nx.betweenness_centrality(G)
+betweenness_centrality = [(value,key) for key, value in betweenness_c.items()]
+max_bc = max(betweenness_centrality)
+eigen_c = nx.eigenvector_centrality_numpy(G)
+eigen_centrality = [(value,key) for key, value in eigen_c.items()]
+max_ec = max(eigen_centrality)
+print("The maximum centrality measures are: \n")
+print("Degree Centrality: ")
+print(max_dc)
+print("Closeness Centrality: ")
+print(max_cc)
+print("Betweenness Centrality: ")
+print(max_bc)
+print("Eigenvector Centrality: ")
+print(max_ec)
+print("Thus, 19 is the most important city. However, 19 is affected by the floods. Thus, we must look at a city that isn't affected by floods.")
